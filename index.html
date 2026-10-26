@@ -268,4 +268,80 @@
 
                     if (data.current) {
                         const windKt = (data.current.wind_speed_10m * 0.539957).toFixed(1);
-                        const gustsKt = (data.current.wind_gusts_10m * 0.5
+                        const gustsKt = (data.current.wind_gusts_10m * 0.539957).toFixed(1);
+                        const dirText = getWindDirectionText(data.current.wind_direction_10m);
+                        
+                        document.getElementById(`${spotKey}-viento`).innerText = windKt;
+                        document.getElementById(`${spotKey}-gusts`).innerText = gustsKt;
+                        document.getElementById(`${spotKey}-dir`).innerText = dirText;
+                        document.getElementById(`${spotKey}-dir-deg`).innerText = `${data.current.wind_direction_10m}º`;
+                        document.getElementById(`${spotKey}-temp`).innerText = `${data.current.temperature_2m}ºC`;
+                    }
+
+                    if (data.daily && data.hourly) {
+                        const forecastContainer = document.getElementById(`${spotKey}-forecast`);
+                        forecastContainer.innerHTML = '';
+
+                        for (let i = 0; i < data.daily.time.length; i++) {
+                            const dateStr = data.daily.time[i];
+                            const meanWindKt = (data.daily.wind_speed_10m_max[i] * 0.539957).toFixed(1);
+                            const dirText = getWindDirectionText(data.daily.wind_direction_10m_dominant[i]);
+                            const tempMax = data.daily.temperature_2m_max[i];
+                            
+                            const isNavigable = meanWindKt >= 10;
+                            const status = getWindStatus(meanWindKt);
+
+                            let hourlyHTML = '';
+                            const startHourIndex = i * 24;
+                            for (let h = 8; h <= 20; h += 3) {
+                                const hourIdx = startHourIndex + h;
+                                if (data.hourly.wind_speed_10m[hourIdx] !== undefined) {
+                                    const hWind = (data.hourly.wind_speed_10m[hourIdx] * 0.539957).toFixed(1);
+                                    const hDir = getWindDirectionText(data.hourly.wind_direction_10m[hourIdx]);
+                                    const hTemp = data.hourly.temperature_2m[hourIdx];
+                                    const hTime = `${h < 10 ? '0' + h : h}:00`;
+                                    
+                                    hourlyHTML += `
+                                        <div class="hour-row">
+                                            <span>${hTime}</span>
+                                            <span>Viento: <strong>${hWind} kt</strong></span>
+                                            <span>Dir: <strong>${hDir}</strong></span>
+                                            <span>Temp: <strong>${hTemp}ºC</strong></span>
+                                        </div>
+                                    `;
+                                }
+                            }
+
+                            const cardId = `${spotKey}-day-${i}`;
+                            const cardHTML = `
+                                <div id="${cardId}" class="forecast-card ${isNavigable ? 'navigable' : ''}" onclick="document.getElementById('${cardId}').classList.toggle('open')">
+                                    <div class="forecast-header">
+                                        <span class="forecast-date">${dateStr}</span>
+                                        <span class="badge ${isNavigable ? 'navigable-tag' : status.class}">
+                                            ${isNavigable ? 'Día Navegable' : status.text}
+                                        </span>
+                                    </div>
+                                    <div class="forecast-summary">
+                                        <span>Pico: <strong>${meanWindKt} kt</strong></span>
+                                        <span>Dir: <strong>${dirText}</strong></span>
+                                        <span>Máx: <strong>${tempMax}ºC</strong></span>
+                                    </div>
+                                    <div class="hourly-details">
+                                        ${hourlyHTML}
+                                    </div>
+                                </div>
+                            `;
+                            forecastContainer.innerHTML += cardHTML;
+                        }
+                    }
+
+                } catch (error) {
+                    console.error("Error cargando datos para", spotKey, error);
+                }
+            }
+        }
+
+        loadWeatherData();
+    </script>
+</body>
+</html>
