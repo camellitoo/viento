@@ -39,7 +39,7 @@
         .metric-value.dir { color: #3fb950; font-size: 1.15rem; }
         .metric-unit { font-size: 0.7rem; color: #8b949e; }
 
-        /* Botones Grandes de Enlaces Externos (Estilo de tu captura) */
+        /* Botones Grandes de Enlaces Externos */
         .external-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .ext-btn { padding: 12px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; text-align: center; text-decoration: none; color: #fff; border: none; cursor: pointer; transition: opacity 0.2s; }
         .ext-btn:hover { opacity: 0.9; }
@@ -72,7 +72,7 @@
         .forecast-summary { display: flex; justify-content: space-between; font-size: 0.85rem; color: #8b949e; }
         .forecast-summary strong { color: #c9d1d9; }
 
-        /* Desglose por horas interno (Se despliega al hacer clic) */
+        /* Desglose por horas interno */
         .hourly-details { display: none; margin-top: 8px; border-top: 1px solid #30363d; padding-top: 8px; flex-direction: column; gap: 6px; }
         .forecast-card.open .hourly-details { display: flex; }
         .hour-row { display: flex; justify-content: space-between; font-size: 0.8rem; background: #21262d; padding: 6px 10px; border-radius: 6px; color: #8b949e; }
@@ -85,9 +85,9 @@
 
     <!-- Navegación de Spots -->
     <div class="spots-nav">
-        <button class="spot-btn active" onclick="switchSpot('malgrat')">Malgrat</button>
-        <button class="spot-btn" onclick="switchSpot('barcares')">Barcarés</button>
-        <button class="spot-btn" onclick="switchSpot('orzales')">Orzales</button>
+        <button class="spot-btn active" onclick="switchSpot('malgrat', event)">Malgrat</button>
+        <button class="spot-btn" onclick="switchSpot('barcares', event)">Barcarés</button>
+        <button class="spot-btn" onclick="switchSpot('orzales', event)">Orzales</button>
     </div>
 
     <!-- SPOT 1: MALGRAT -->
@@ -236,20 +236,16 @@
             orzales: { lat: 43.4623, lon: -3.8099 }
         };
 
-        function switchSpot(spotId) {
+        function switchSpot(spotId, event) {
             document.querySelectorAll('.spot-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.spot-container').forEach(cont => cont.classList.remove('active'));
             
-            event.target.classList.add('active');
+            event.currentTarget.classList.add('active');
             document.getElementById(spotId).classList.add('active');
         }
 
         function toggleForecast(id) {
             document.getElementById(id).classList.toggle('show');
-        }
-
-        function toggleDayDetail(cardElement) {
-            cardElement.classList.toggle('open');
         }
 
         function getWindStatus(kt) {
@@ -321,8 +317,10 @@
                                 }
                             }
 
+                            // Creamos la tarjeta con un identificador único para desplegar sus horas con JS limpio
+                            const cardId = `${spotKey}-day-${i}`;
                             const cardHTML = `
-                                <div class="forecast-card ${isNavigable ? 'navigable' : ''}" onclick="toggleDayDetail(this)">
+                                <div id="${cardId}" class="forecast-card ${isNavigable ? 'navigable' : ''}" onclick="document.getElementById('${cardId}').classList.toggle('open')">
                                     <div class="forecast-header">
                                         <span class="forecast-date">${dateStr}</span>
                                         <span class="badge ${isNavigable ? 'navigable-tag' : status.class}">
