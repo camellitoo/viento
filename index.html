@@ -27,20 +27,22 @@
 
         /* Contenedor EN DIRECTO */
         .live-container { background: #111418; border: 1px solid #30363d; border-radius: 14px; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-        .live-tag { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: bold; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+        .live-tag { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: bold; color: #8b940e; text-transform: uppercase; letter-spacing: 0.5px; color: #8b949e; }
         .live-dot { width: 8px; height: 8px; background-color: #3fb950; border-radius: 50%; box-shadow: 0 0 6px #3fb950; }
 
-        /* Cajas de Métricas grandes */
+        /* Cajas de Métricas con números más grandes */
         .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .metric-box { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 12px 6px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+        .metric-box { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 14px 6px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
         .metric-label { font-size: 0.75rem; color: #8b949e; font-weight: 500; }
-        .metric-value { font-size: 1.3rem; font-weight: bold; color: #58a6ff; }
+        .metric-value { font-size: 1.5rem; font-weight: bold; color: #58a6ff; }
         .metric-value.gust { color: #d29922; }
-        .metric-value.dir { color: #3fb950; font-size: 1.15rem; }
+        .metric-value.dir { color: #3fb950; font-size: 1.3rem; }
         .metric-unit { font-size: 0.7rem; color: #8b949e; }
 
-        /* Botones Grandes de Enlaces Externos */
+        /* Botones Externos Dinámicos */
         .external-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .external-buttons.three-cols { grid-template-columns: repeat(3, 1fr); }
+        
         .ext-btn { padding: 12px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; text-align: center; text-decoration: none; color: #fff; border: none; cursor: pointer; transition: opacity 0.2s; }
         .ext-btn:hover { opacity: 0.9; }
         .btn-windguru { background-color: #d97706; }
@@ -55,7 +57,7 @@
         .forecast-list { display: none; flex-direction: column; gap: 10px; }
         .forecast-list.show { display: flex; }
 
-        /* Tarjetas de Previsión Diaria (Clickables) */
+        /* Tarjetas de Previsión Diaria */
         .forecast-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 14px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 8px; }
         .forecast-card:hover { border-color: #58a6ff; }
         .forecast-card.navigable { border-color: #238636; background: rgba(35, 134, 54, 0.08); }
@@ -90,7 +92,7 @@
         <button class="spot-btn" onclick="switchSpot('orzales', event)">Orzales</button>
     </div>
 
-    <!-- SPOT 1: MALGRAT -->
+    <!-- SPOT 1: MALGRAT (Sin webcam) -->
     <div id="malgrat" class="spot-container active">
         <div class="spot-card">
             <div class="spot-header">
@@ -124,12 +126,11 @@
                 </div>
             </div>
 
-            <!-- Botones Grandes -->
+            <!-- Botones sin Webcam -->
             <div class="external-buttons">
                 <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-windguru">Windguru</a>
                 <a href="https://www.windy.com" target="_blank" class="ext-btn btn-windy">Windy</a>
                 <a href="https://www.windfinder.com" target="_blank" class="ext-btn btn-windfinder">Windfinder</a>
-                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-webcam">Webcam</a>
             </div>
         </div>
 
@@ -137,7 +138,7 @@
         <div id="malgrat-forecast" class="forecast-list"></div>
     </div>
 
-    <!-- SPOT 2: BARCARÉS -->
+    <!-- SPOT 2: BARCARÉS (Con Webcam conectada) -->
     <div id="barcares" class="spot-container">
         <div class="spot-card">
             <div class="spot-header">
@@ -171,11 +172,12 @@
                 </div>
             </div>
 
-            <div class="external-buttons">
+            <!-- Botones con Webcam activada -->
+            <div class="external-buttons three-cols">
                 <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-windguru">Windguru</a>
                 <a href="https://www.windy.com" target="_blank" class="ext-btn btn-windy">Windy</a>
                 <a href="https://www.windfinder.com" target="_blank" class="ext-btn btn-windfinder">Windfinder</a>
-                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-webcam">Webcam</a>
+                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-webcam" style="grid-column: span 3;">Webcam Oficial</a>
             </div>
         </div>
 
@@ -183,7 +185,7 @@
         <div id="barcares-forecast" class="forecast-list"></div>
     </div>
 
-    <!-- SPOT 3: ORZALES -->
+    <!-- SPOT 3: ORZALES (Sin webcam) -->
     <div id="orzales" class="spot-container">
         <div class="spot-card">
             <div class="spot-header">
@@ -217,11 +219,11 @@
                 </div>
             </div>
 
+            <!-- Botones sin Webcam -->
             <div class="external-buttons">
                 <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-windguru">Windguru</a>
                 <a href="https://www.windy.com" target="_blank" class="ext-btn btn-windy">Windy</a>
                 <a href="https://www.windfinder.com" target="_blank" class="ext-btn btn-windfinder">Windfinder</a>
-                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-webcam">Webcam</a>
             </div>
         </div>
 
@@ -317,7 +319,6 @@
                                 }
                             }
 
-                            // Creamos la tarjeta con un identificador único para desplegar sus horas con JS limpio
                             const cardId = `${spotKey}-day-${i}`;
                             const cardHTML = `
                                 <div id="${cardId}" class="forecast-card ${isNavigable ? 'navigable' : ''}" onclick="document.getElementById('${cardId}').classList.toggle('open')">
