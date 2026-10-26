@@ -9,48 +9,81 @@
         body { background-color: #0d1117; color: #c9d1d9; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         h1 { font-size: 1.5rem; margin-bottom: 15px; color: #f0f6fc; text-align: center; }
         
-        /* Botones de Spots */
+        /* Botones de Spots superiores */
         .spots-nav { display: flex; gap: 8px; margin-bottom: 20px; width: 100%; max-width: 500px; justify-content: center; }
-        .spot-btn { background: #21262d; border: 1px solid #30363d; color: #8b949e; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; flex: 1; text-align: center; transition: all 0.2s; }
+        .spot-btn { background: #161b22; border: 1px solid #30363d; color: #8b949e; padding: 12px 15px; border-radius: 12px; cursor: pointer; font-weight: 600; flex: 1; text-align: center; transition: all 0.2s; font-size: 0.95rem; }
         .spot-btn.active { background: #1f6feb; color: #ffffff; border-color: #388bfd; }
 
         .spot-container { width: 100%; max-width: 500px; display: none; flex-direction: column; gap: 15px; }
         .spot-container.active { display: flex; }
 
-        /* Tarjetas */
-        .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 10px; transition: all 0.3s; }
-        .card.navigable { border-color: #238636; background: rgba(35, 134, 54, 0.08); }
+        /* Tarjeta Principal del Spot */
+        .spot-card { background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 15px; }
+        .spot-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .spot-title-group { display: flex; flex-direction: column; gap: 2px; }
+        .spot-title { font-size: 1.4rem; font-weight: bold; color: #f0f6fc; }
+        .spot-subtitle { font-size: 0.75rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+        .spot-temp { background: #21262d; border: 1px solid #30363d; padding: 6px 14px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; color: #58a6ff; }
+
+        /* Contenedor EN DIRECTO */
+        .live-container { background: #111418; border: 1px solid #30363d; border-radius: 14px; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
+        .live-tag { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: bold; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+        .live-dot { width: 8px; height: 8px; background-color: #3fb950; border-radius: 50%; box-shadow: 0 0 6px #3fb950; }
+
+        /* Cajas de Métricas grandes */
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .metric-box { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 12px 6px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+        .metric-label { font-size: 0.75rem; color: #8b949e; font-weight: 500; }
+        .metric-value { font-size: 1.3rem; font-weight: bold; color: #58a6ff; }
+        .metric-value.gust { color: #d29922; }
+        .metric-value.dir { color: #3fb950; font-size: 1.15rem; }
+        .metric-unit { font-size: 0.7rem; color: #8b949e; }
+
+        /* Botones Grandes de Enlaces Externos (Estilo de tu captura) */
+        .external-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .ext-btn { padding: 12px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; text-align: center; text-decoration: none; color: #fff; border: none; cursor: pointer; transition: opacity 0.2s; }
+        .ext-btn:hover { opacity: 0.9; }
+        .btn-windguru { background-color: #d97706; }
+        .btn-windy { background-color: #2563eb; }
+        .btn-windfinder { background-color: #0284c7; }
+        .btn-webcam { background-color: #7c3aed; }
+
+        /* Botón Desplegable Previsiones */
+        .toggle-btn { background: #161b22; border: 1px solid #30363d; color: #58a6ff; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: bold; text-align: center; width: 100%; font-size: 0.95rem; }
+        .toggle-btn:hover { background: #21262d; }
         
-        .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
-        .card-title { font-size: 1.1rem; font-weight: bold; color: #f0f6fc; }
+        .forecast-list { display: none; flex-direction: column; gap: 10px; }
+        .forecast-list.show { display: flex; }
+
+        /* Tarjetas de Previsión Diaria (Clickables) */
+        .forecast-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 14px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 8px; }
+        .forecast-card:hover { border-color: #58a6ff; }
+        .forecast-card.navigable { border-color: #238636; background: rgba(35, 134, 54, 0.08); }
         
-        .badge { background: #238636; color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
+        .forecast-header { display: flex; justify-content: space-between; align-items: center; }
+        .forecast-date { font-weight: bold; color: #f0f6fc; font-size: 1rem; }
+        
+        .badge { background: #238636; color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; }
         .badge.flojo { background: #484f58; }
         .badge.moderado { background: #9e6a03; }
         .badge.fuerte { background: #da3633; }
         .badge.navigable-tag { background: #238636; box-shadow: 0 0 8px rgba(35,134,54,0.6); }
 
-        .card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem; }
-        .data-item span { display: block; color: #8b949e; font-size: 0.8rem; }
-        .data-item strong { color: #f0f6fc; font-size: 1rem; }
+        .forecast-summary { display: flex; justify-content: space-between; font-size: 0.85rem; color: #8b949e; }
+        .forecast-summary strong { color: #c9d1d9; }
 
-        /* Enlaces Externos Oficiales */
-        .external-links { display: flex; gap: 6px; margin-top: 5px; }
-        .ext-btn { flex: 1; background: #21262d; border: 1px solid #30363d; color: #58a6ff; padding: 6px; border-radius: 6px; font-size: 0.75rem; text-align: center; text-decoration: none; font-weight: 600; }
-        .ext-btn:hover { background: #30363d; }
-
-        /* Botón Desplegable Previsiones */
-        .toggle-btn { background: #21262d; border: 1px solid #30363d; color: #58a6ff; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; margin-top: 5px; width: 100%; }
-        .toggle-btn:hover { background: #30363d; }
-        .forecast-list { display: none; flex-direction: column; gap: 10px; margin-top: 5px; }
-        .forecast-list.show { display: flex; }
+        /* Desglose por horas interno (Se despliega al hacer clic) */
+        .hourly-details { display: none; margin-top: 8px; border-top: 1px solid #30363d; padding-top: 8px; flex-direction: column; gap: 6px; }
+        .forecast-card.open .hourly-details { display: flex; }
+        .hour-row { display: flex; justify-content: space-between; font-size: 0.8rem; background: #21262d; padding: 6px 10px; border-radius: 6px; color: #8b949e; }
+        .hour-row span strong { color: #f0f6fc; }
     </style>
 </head>
 <body>
 
     <h1>Wingfoil Planner</h1>
 
-    <!-- Navegación de Spots (Nombres limpios) -->
+    <!-- Navegación de Spots -->
     <div class="spots-nav">
         <button class="spot-btn active" onclick="switchSpot('malgrat')">Malgrat</button>
         <button class="spot-btn" onclick="switchSpot('barcares')">Barcarés</button>
@@ -59,24 +92,45 @@
 
     <!-- SPOT 1: MALGRAT -->
     <div id="malgrat" class="spot-container active">
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Hoy (Tiempo Real)</span>
-                <span id="malgrat-hoy-badge" class="badge flojo">Calculando...</span>
+        <div class="spot-card">
+            <div class="spot-header">
+                <div class="spot-title-group">
+                    <span class="spot-title">Malgrat</span>
+                    <span class="spot-subtitle">Barcelona, Cataluña</span>
+                </div>
+                <span id="malgrat-temp" class="spot-temp">--ºC</span>
             </div>
-            <div class="card-body">
-                <div class="data-item"><span>Viento Actual</span><strong id="malgrat-hoy-viento">-- kt</strong></div>
-                <div class="data-item"><span>Dirección</span><strong id="malgrat-hoy-dir">--</strong></div>
-                <div class="data-item"><span>Temperatura</span><strong id="malgrat-hoy-temp">--ºC</strong></div>
-                <div class="data-item"><span>Rachas</span><strong id="malgrat-hoy-gusts">-- kt</strong></div>
+            
+            <div class="live-container">
+                <div class="live-tag">
+                    <div class="live-dot"></div> En directo
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <span class="metric-label">Viento</span>
+                        <span id="malgrat-viento" class="metric-value">--</span>
+                        <span class="metric-unit">nudos</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Rachas</span>
+                        <span id="malgrat-gusts" class="metric-value gust">--</span>
+                        <span class="metric-unit">nudos</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Dirección</span>
+                        <span id="malgrat-dir" class="metric-value dir">--</span>
+                        <span id="malgrat-dir-deg" class="metric-unit">--º</span>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Botones externos oficiales -->
-        <div class="external-links">
-            <a href="https://www.windguru.cz" target="_blank" class="ext-btn">Windguru</a>
-            <a href="https://www.windfinder.com" target="_blank" class="ext-btn">Windfinder</a>
-            <a href="https://www.windy.com" target="_blank" class="ext-btn">Windy</a>
+            <!-- Botones Grandes -->
+            <div class="external-buttons">
+                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-windguru">Windguru</a>
+                <a href="https://www.windy.com" target="_blank" class="ext-btn btn-windy">Windy</a>
+                <a href="https://www.windfinder.com" target="_blank" class="ext-btn btn-windfinder">Windfinder</a>
+                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-webcam">Webcam</a>
+            </div>
         </div>
 
         <button class="toggle-btn" onclick="toggleForecast('malgrat-forecast')">Ver Previsiones (10 Días)</button>
@@ -85,23 +139,44 @@
 
     <!-- SPOT 2: BARCARÉS -->
     <div id="barcares" class="spot-container">
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Hoy (Tiempo Real)</span>
-                <span id="barcares-hoy-badge" class="badge flojo">Calculando...</span>
+        <div class="spot-card">
+            <div class="spot-header">
+                <div class="spot-title-group">
+                    <span class="spot-title">Barcarés</span>
+                    <span class="spot-subtitle">Pirineos Orientales, Francia</span>
+                </div>
+                <span id="barcares-temp" class="spot-temp">--ºC</span>
             </div>
-            <div class="card-body">
-                <div class="data-item"><span>Viento Actual</span><strong id="barcares-hoy-viento">-- kt</strong></div>
-                <div class="data-item"><span>Dirección</span><strong id="barcares-hoy-dir">--</strong></div>
-                <div class="data-item"><span>Temperatura</span><strong id="barcares-hoy-temp">--ºC</strong></div>
-                <div class="data-item"><span>Rachas</span><strong id="barcares-hoy-gusts">-- kt</strong></div>
+            
+            <div class="live-container">
+                <div class="live-tag">
+                    <div class="live-dot"></div> En directo
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <span class="metric-label">Viento</span>
+                        <span id="barcares-viento" class="metric-value">--</span>
+                        <span class="metric-unit">nudos</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Rachas</span>
+                        <span id="barcares-gusts" class="metric-value gust">--</span>
+                        <span class="metric-unit">nudos</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Dirección</span>
+                        <span id="barcares-dir" class="metric-value dir">--</span>
+                        <span id="barcares-dir-deg" class="metric-unit">--º</span>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="external-links">
-            <a href="https://www.windguru.cz" target="_blank" class="ext-btn">Windguru</a>
-            <a href="https://www.windfinder.com" target="_blank" class="ext-btn">Windfinder</a>
-            <a href="https://www.windy.com" target="_blank" class="ext-btn">Windy</a>
+            <div class="external-buttons">
+                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-windguru">Windguru</a>
+                <a href="https://www.windy.com" target="_blank" class="ext-btn btn-windy">Windy</a>
+                <a href="https://www.windfinder.com" target="_blank" class="ext-btn btn-windfinder">Windfinder</a>
+                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-webcam">Webcam</a>
+            </div>
         </div>
 
         <button class="toggle-btn" onclick="toggleForecast('barcares-forecast')">Ver Previsiones (10 Días)</button>
@@ -110,23 +185,44 @@
 
     <!-- SPOT 3: ORZALES -->
     <div id="orzales" class="spot-container">
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Hoy (Tiempo Real)</span>
-                <span id="orzales-hoy-badge" class="badge flojo">Calculando...</span>
+        <div class="spot-card">
+            <div class="spot-header">
+                <div class="spot-title-group">
+                    <span class="spot-title">Orzales</span>
+                    <span class="spot-subtitle">Cantabria, España</span>
+                </div>
+                <span id="orzales-temp" class="spot-temp">--ºC</span>
             </div>
-            <div class="card-body">
-                <div class="data-item"><span>Viento Actual</span><strong id="orzales-hoy-viento">-- kt</strong></div>
-                <div class="data-item"><span>Dirección</span><strong id="orzales-hoy-dir">--</strong></div>
-                <div class="data-item"><span>Temperatura</span><strong id="orzales-hoy-temp">--ºC</strong></div>
-                <div class="data-item"><span>Rachas</span><strong id="orzales-hoy-gusts">-- kt</strong></div>
+            
+            <div class="live-container">
+                <div class="live-tag">
+                    <div class="live-dot"></div> En directo
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <span class="metric-label">Viento</span>
+                        <span id="orzales-viento" class="metric-value">--</span>
+                        <span class="metric-unit">nudos</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Rachas</span>
+                        <span id="orzales-gusts" class="metric-value gust">--</span>
+                        <span class="metric-unit">nudos</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Dirección</span>
+                        <span id="orzales-dir" class="metric-value dir">--</span>
+                        <span id="orzales-dir-deg" class="metric-unit">--º</span>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="external-links">
-            <a href="https://www.windguru.cz" target="_blank" class="ext-btn">Windguru</a>
-            <a href="https://www.windfinder.com" target="_blank" class="ext-btn">Windfinder</a>
-            <a href="https://www.windy.com" target="_blank" class="ext-btn">Windy</a>
+            <div class="external-buttons">
+                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-windguru">Windguru</a>
+                <a href="https://www.windy.com" target="_blank" class="ext-btn btn-windy">Windy</a>
+                <a href="https://www.windfinder.com" target="_blank" class="ext-btn btn-windfinder">Windfinder</a>
+                <a href="https://www.windguru.cz" target="_blank" class="ext-btn btn-webcam">Webcam</a>
+            </div>
         </div>
 
         <button class="toggle-btn" onclick="toggleForecast('orzales-forecast')">Ver Previsiones (10 Días)</button>
@@ -149,8 +245,11 @@
         }
 
         function toggleForecast(id) {
-            const el = document.getElementById(id);
-            el.classList.toggle('show');
+            document.getElementById(id).classList.toggle('show');
+        }
+
+        function toggleDayDetail(cardElement) {
+            cardElement.classList.toggle('open');
         }
 
         function getWindStatus(kt) {
@@ -168,30 +267,26 @@
         async function loadWeatherData() {
             for (const [spotKey, coords] of Object.entries(realCoords)) {
                 try {
-                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m&daily=temperature_2m_max,wind_speed_10m_max,wind_direction_10m_dominant&models=best_match&timezone=auto`;
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=wind_speed_10m,wind_direction_10m,temperature_2m&daily=temperature_2m_max,wind_speed_10m_max,wind_direction_10m_dominant&models=best_match&timezone=auto`;
                     
                     const response = await fetch(url);
                     const data = await response.json();
 
-                    // 1. HOY (Tiempo real)
+                    // 1. TIEMPO REAL
                     if (data.current) {
                         const windKt = (data.current.wind_speed_10m * 0.539957).toFixed(1);
                         const gustsKt = (data.current.wind_gusts_10m * 0.539957).toFixed(1);
                         const dirText = getWindDirectionText(data.current.wind_direction_10m);
                         
-                        document.getElementById(`${spotKey}-hoy-viento`).innerText = `${windKt} kt`;
-                        document.getElementById(`${spotKey}-hoy-dir`).innerText = `${dirText} (${data.current.wind_direction_10m}º)`;
-                        document.getElementById(`${spotKey}-hoy-temp`).innerText = `${data.current.temperature_2m}ºC`;
-                        document.getElementById(`${spotKey}-hoy-gusts`).innerText = `${gustsKt} kt`;
-
-                        const status = getWindStatus(windKt);
-                        const badge = document.getElementById(`${spotKey}-hoy-badge`);
-                        badge.innerText = status.text;
-                        badge.className = `badge ${status.class}`;
+                        document.getElementById(`${spotKey}-viento`).innerText = windKt;
+                        document.getElementById(`${spotKey}-gusts`).innerText = gustsKt;
+                        document.getElementById(`${spotKey}-dir`).innerText = dirText;
+                        document.getElementById(`${spotKey}-dir-deg`).innerText = `${data.current.wind_direction_10m}º`;
+                        document.getElementById(`${spotKey}-temp`).innerText = `${data.current.temperature_2m}ºC`;
                     }
 
-                    // 2. PREVISIONES (10 Días con resaltado de días navegables)
-                    if (data.daily) {
+                    // 2. PREVISIONES 10 DÍAS CON DESGLOSE POR HORAS AL PINCHAR
+                    if (data.daily && data.hourly) {
                         const forecastContainer = document.getElementById(`${spotKey}-forecast`);
                         forecastContainer.innerHTML = '';
 
@@ -201,22 +296,46 @@
                             const dirText = getWindDirectionText(data.daily.wind_direction_10m_dominant[i]);
                             const tempMax = data.daily.temperature_2m_max[i];
                             
-                            // Regla de navegabilidad: Consideramos navegable si el pico supera los 10 nudos
                             const isNavigable = meanWindKt >= 10;
                             const status = getWindStatus(meanWindKt);
 
+                            // Generar desglose de horas para este día (de 8:00 a 20:00 cada 3 horas)
+                            let hourlyHTML = '';
+                            const startHourIndex = i * 24;
+                            for (let h = 8; h <= 20; h += 3) {
+                                const hourIdx = startHourIndex + h;
+                                if (data.hourly.wind_speed_10m[hourIdx] !== undefined) {
+                                    const hWind = (data.hourly.wind_speed_10m[hourIdx] * 0.539957).toFixed(1);
+                                    const hDir = getWindDirectionText(data.hourly.wind_direction_10m[hourIdx]);
+                                    const hTemp = data.hourly.temperature_2m[hourIdx];
+                                    const hTime = `${h < 10 ? '0' + h : h}:00`;
+                                    
+                                    hourlyHTML += `
+                                        <div class="hour-row">
+                                            <span>${hTime}</span>
+                                            <span>Viento: <strong>${hWind} kt</strong></span>
+                                            <span>Dir: <strong>${hDir}</strong></span>
+                                            <span>Temp: <strong>${hTemp}ºC</strong></span>
+                                        </div>
+                                    `;
+                                }
+                            }
+
                             const cardHTML = `
-                                <div class="card ${isNavigable ? 'navigable' : ''}">
-                                    <div class="card-header">
-                                        <span class="card-title">${dateStr}</span>
+                                <div class="forecast-card ${isNavigable ? 'navigable' : ''}" onclick="toggleDayDetail(this)">
+                                    <div class="forecast-header">
+                                        <span class="forecast-date">${dateStr}</span>
                                         <span class="badge ${isNavigable ? 'navigable-tag' : status.class}">
                                             ${isNavigable ? '¡Día Navegable! 🏄‍♂️' : status.text}
                                         </span>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="data-item"><span>Media Modelos</span><strong>${meanWindKt} kt</strong></div>
-                                        <div class="data-item"><span>Dirección</span><strong>${dirText} (${data.daily.wind_direction_10m_dominant[i]}º)</strong></div>
-                                        <div class="data-item"><span>Temp Máx</span><strong>${tempMax}ºC</strong></div>
+                                    <div class="forecast-summary">
+                                        <span>Pico: <strong>${meanWindKt} kt</strong></span>
+                                        <span>Dir: <strong>${dirText}</strong></span>
+                                        <span>Máx: <strong>${tempMax}ºC</strong></span>
+                                    </div>
+                                    <div class="hourly-details">
+                                        ${hourlyHTML}
                                     </div>
                                 </div>
                             `;
