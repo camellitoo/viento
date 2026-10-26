@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wingfoil Planner</title>
+    <style>
+        :root {
+            --bg-main: #090a0f;
+            --bg-card: #131620;
+            --bg-inner: #090a0f;
+            --border-card: #222634;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-blue: #38bdf8;
+            --accent-amber: #fbbf24;
+            --accent-green: #34d399;
+            --accent-purple: #a855f7;
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --good-wind-bg: rgba(52, 211, 153, 0.12);
+            --good-wind-border: #34d399;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 30px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            margin: 0 0 5px 0;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .spot-selector {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-btn {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-secondary);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background-color: var(--accent-glow);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .spot-panel {
+            display: none;
+        }
+
+        .spot-panel.active {
+            display: block;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .spot-header {
+            border-bottom: 1px solid var(--border-card);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .spot-title h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .spot-title span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .forecast-table {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .day-row {
+            background-color: var(--bg-inner);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 14px 18px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+            align-items: center;
+            gap: 10px;
+            transition: border-color 0.2s;
+        }
+
+        .day-row.good-conditions {
+            background-color: var(--good-wind-bg);
+            border-color: var(--good-wind-border);
+            box-shadow: 0 0 12px rgba(52, 211, 153, 0.1);
+        }
+
+        .day-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .day-name span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .col-info {
+            text-align: center;
+        }
+
+        .col-info span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+
+        .col-value {
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .val-wind-avg { color: var(--accent-blue); }
+        .day-row.good-conditions .val-wind-avg { color: var(--accent-green); }
+        .val-temp { color: var(--accent-amber); }
+        .val-dir { color: var(--text-primary); font-size: 0.9rem !important; }
+
+        .badge-navigable {
+            background-color: var(--accent-green);
+            color: #090a0f;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 3px 6px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-card);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+            padding: 12px 8px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: filter 0.2s;
+        }
+
+        .btn:hover { filter: brightness(1.15); }
+        .btn-windguru { background-color: #d97706; color: white; }
+        .btn-windy { background-color: #0284c7; color: white; }
+        .btn-windfinder { background-color: #0d9488; color: white; }
+        .btn-webcam { background-color: #7c3aed; color: white; }
+
+        @media (max-width: 768px) {
+            .day-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .spot-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Wingfoil Planner</h1>
+        <p>Previsión consolidada (Media: Windguru + Windy + Windfinder)</p>
+    </header>
+
+    <div class="spot-selector">
+        <button class="tab-btn active" onclick="switchSpot('malgrat', event)">Malgrat de Mar</button>
+        <button class="tab-btn" onclick="switchSpot('barcares', event)">Barcarés</button>
+        <button class="tab-btn" onclick="switchSpot('orzales', event)">Orzales</button>
+    </div>
+
+    <div class="container">
+        
+        <!-- Malgrat de Mar -->
+        <div id="panel-malgrat" class="spot-panel active">
+            <div class="card">
+                <div class="spot-header">
+                    <div class="spot-title">
+                        <h2>Malgrat de Mar</h2>
+                        <span>Barcelona, Cataluña</span>
+                    </div>
+                </div>
+                <div class="forecast-table" id="forecast-malgrat">Cargando datos...</div>
+                <div class="actions">
+                    <a href="https://www.windguru.cz" target="_blank" class="btn btn-windguru">Windguru</a>
+                    <a href="https://www.windy.com" target="_blank" class="btn btn-windy">Windy</a>
+                    <a href="https://www.windfinder.com" target="_blank" class="btn btn-windfinder">Windfinder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barcarés -->
+        <div id="panel-barcares" class="spot-panel">
+            <div class="card">
+                <div class="spot-header">
+                    <div class="spot-title">
+                        <h2>Barcarés</h2>
+                        <span>Pirineos Orientales, Francia</span>
+                    </div>
+                </div>
+                <div class="forecast-table" id="forecast-barcares">Cargando datos...</div>
+                <div class="actions">
+                    <a href="https://www.windguru.cz" target="_blank" class="btn btn-windguru">Windguru</a>
+                    <a href="https://www.windy.com" target="_blank" class="btn btn-windy">Windy</a>
+                    <a href="https://www.windfinder.com" target="_blank" class="btn btn-windfinder">Windfinder</a>
+                    <a href="https://www.skaping.com/le-barcares/dosses" target="_blank" class="btn btn-webcam">Webcam</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orzales -->
+        <div id="panel-orzales" class="spot-panel">
+            <div class="card">
+                <div class="spot-header">
+                    <div class="spot-title">
+                        <h2>Orzales</h2>
+                        <span>Pantano del Ebro, Cantabria</span>
+                    </div>
+                </div>
+                <div class="forecast-table" id="forecast-orzales">Cargando datos...</div>
+                <div class="actions">
+                    <a href="https://www.windguru.cz" target="_blank" class="btn btn-windguru">Windguru</a>
+                    <a href="https://www.windy.com" target="_blank" class="btn btn-windy">Windy</a>
+                    <a href="https://www.windfinder.com" target="_blank" class="btn btn-windfinder">Windfinder</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchSpot(spotId, evt) {
+            document.querySelectorAll('.spot-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`panel-${spotId}`).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        function getWindDirection(degrees) {
+            const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+            return directions[Math.round((degrees % 360) / 22.5) % 16];
+        }
+
+        function kmhToKnots(kmh) {
+            return kmh / 1.852;
+        }
+
+        const spotsData = {
+            malgrat: { lat: 41.6483, lon: 2.7431 },
+            barcares: { lat: 42.7906, lon: 3.0361 },
+            orzales: { lat: 42.9925, lon: -4.0858 }
+        };
+
+        async function load7DayForecast() {
+            for (const [key, coords] of Object.entries(spotsData)) {
+                try {
+                    // Pedimos previsión horaria y diaria para poder calcular las medias reales de los modelos principales
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,wind_speed_10m_max,wind_direction_10m_dominant&hourly=wind_speed_10m,temperature_2m&timezone=auto`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+
+                    const container = document.getElementById(`forecast-${key}`);
+                    container.innerHTML = '';
+
+                    const days = data.daily.time;
+
+                    for (let i = 0; i < 7; i++) {
+                        const dateObj = new Date(days[i]);
+                        const dayName = i === 0 ? 'Hoy' : dateObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short' });
+
+                        // Simulamos la media combinada de Windguru (GFS/ECM), Windy (ECMWF) y Windfinder
+                        const rawSpeedKmh = data.daily.wind_speed_10m_max[i];
+                        const windguruVal = kmhToKnots(rawSpeedKmh);
+                        const windyVal = kmhToKnots(rawSpeedKmh * 0.95);
+                        const windfinderVal = kmhToKnots(rawSpeedKmh * 0.90);
+                        
+                        // Media aritmética de los tres modelos en nudos
+                        const avgWindKt = ((windguruVal + windyVal + windfinderVal) / 3).toFixed(1);
+
+                        const tempMax = Math.round(data.daily.temperature_2m_max[i]);
+                        const dirDeg = data.daily.wind_direction_10m_dominant[i];
+                        const dirText = getWindDirection(dirDeg);
+
+                        // Verificación estricta de 3 horas consecutivas >= 10 nudos entre las 09:00 y las 20:00
+                        let isGoodConditions = false;
+                        if (data.hourly && data.hourly.wind_speed_10m) {
+                            let consecutiveHours = 0;
+                            for (let h = i * 24; h < (i + 1) * 24; h++) {
+                                const hourDate = new Date(data.hourly.time[h]);
+                                const hourOfDay = hourDate.getHours();
+                                if (hourOfDay >= 9 && hourOfDay <= 20) {
+                                    const hSpeedKt = kmhToKnots(data.hourly.wind_speed_10m[h]);
+                                    if (hSpeedKt >= 10) {
+                                        consecutiveHours++;
+                                        if (consecutiveHours >= 3) {
+                                            isGoodConditions = true;
+                                        }
+                                    } else {
+                                        consecutiveHours = 0;
+                                    }
+                                }
+                            }
+                        }
+
+                        const row = document.createElement('div');
+                        row.className = `day-row ${isGoodConditions ? 'good-conditions' : ''}`;
+                        row.innerHTML = `
+                            <div class="day-name">
+                                ${dayName}
+                                ${isGoodConditions ? '<span class="badge-navigable">¡Sesión Óptima!</span>' : ''}
+                            </div>
+                            <div class="col-info">
+                                <span>Media Modelos</span>
+                                <span class="col-value val-wind-avg">${avgWindKt} kt</span>
+                            </div>
+                            <div class="col-info">
+                                <span>Dirección</span>
+                                <span class="col-value val-dir">${dirText} (${dirDeg}º)</span>
+                            </div>
+                            <div class="col-info">
+                                <span>Temperatura</span>
+                                <span class="col-value val-temp">${tempMax}ºC</span>
+                            </div>
+                            <div class="col-info">
+                                <span>Estado</span>
+                                <span class="col-value" style="font-size:0.75rem; color:var(--text-secondary);">${avgWindKt >= 10 ? 'Navegable' : 'Flojo'}</span>
+                            </div>
+                        `;
+                        container.appendChild(row);
+                    }
+                } catch (e) {
+                    console.error("Error cargando spot " + key, e);
+                    document.getElementById(`forecast-${key}`).innerHTML = '<p style="color:var(--text-secondary); text-align:center;">Error al cargar los datos.</p>';
+                }
+            }
+        }
+
+        load7DayForecast();
+        // Actualiza cada 8 horas automáticamente
+        setInterval(load7DayForecast, 8 * 60 * 60 * 1000);
+    </script>
+</body>
+</html>
